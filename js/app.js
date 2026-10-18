@@ -73,7 +73,7 @@ const App = {
     // Si hay imagen de logo, la usamos; si no, iniciales o ícono
     let logoContent = '';
     if (loc.logoImg) {
-      logoContent = '<img src="' + loc.logoImg + '" alt="' + loc.name + ' logo" class="local-card-logo-img">';
+      logoContent = '<img src="' + loc.logoImg + '" alt="' + loc.name + ' logo" class="local-card-logo-img" loading="lazy">';
     } else if (loc.logo.type === 'initials') {
       logoContent = loc.logo.value;
     } else {
@@ -826,7 +826,7 @@ const App = {
     document.getElementById('pd-main-img').src = p.images[0];
     document.getElementById('pd-main-img').alt = p.name;
     document.getElementById('pd-thumbs').innerHTML = p.images.map((src, i) =>
-      `<button type="button" class="pd-thumb${i === 0 ? ' active' : ''}" data-idx="${i}" onclick="App.setImage(this)" aria-label="Ver imagen ${i + 1}"><img src="${src}" alt=""></button>`
+      `<button type="button" class="pd-thumb${i === 0 ? ' active' : ''}" data-idx="${i}" onclick="App.setImage(this)" aria-label="Ver imagen ${i + 1}"><img src="${src}" alt="" loading="lazy"></button>`
     ).join('');
     document.getElementById('pd-cat-label').textContent = catLabels[p.cat];
     document.getElementById('pd-name').textContent = p.name;
@@ -1202,7 +1202,7 @@ const App = {
 
         <div class="cart-item">
 
-          <img src="${item.img}" alt="${item.name}">
+          <img src="${item.img}" alt="${item.name}" loading="lazy">
 
           <div class="cart-item-info">
 
