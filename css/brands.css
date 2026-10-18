@@ -1,0 +1,129 @@
+/* ════════════════════════════════════════════════════
+
+   LOGOS DE IMAGEN (reemplazan texto/iniciales)
+
+  Coloca tus archivos en img/locales/:
+
+  · img/locales/chuy-logo.png
+
+  · img/locales/ruta9-logo.png
+
+  · img/locales/totys-logo.png (opcional)
+
+   ════════════════════════════════════════════════════ */
+
+.header-logo-img {
+
+  height: 60px;
+
+  width: auto;
+
+  display: block;
+
+  margin: 0 auto;
+
+}
+
+.local-card-logo-img {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: contain;
+
+  border-radius: 50%;
+
+}
+
+.local-card-logo-wrap img.local-card-logo-img {
+
+  display: block;
+
+}
+
+/* ═══════════════════════════════════════════════════
+   6.1 BRAND HERO - Banner de portada para Chuy y Ruta 9
+   Imagen de fondo + gradiente + texto superpuesto.
+   ═══════════════════════════════════════════════════ */
+.brand-hero {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  min-height: 220px;
+  max-height: 420px;
+  background: var(--dark);
+}
+.brand-hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+}
+.brand-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(90deg, rgba(6,42,102,.92) 0%, rgba(10,61,145,.7) 40%, rgba(10,61,145,.15) 75%, rgba(10,61,145,.1) 100%),
+    linear-gradient(0deg, rgba(6,42,102,.5), transparent 55%);
+  pointer-events: none;
+}
+.brand-hero-content {
+  position: absolute;
+  z-index: 5;
+  left: 6%;
+  right: 6%;
+  bottom: 12%;
+  max-width: 560px;
+  color: #fff;
+}
+.brand-hero-content .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 6px 12px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  color: var(--dark);
+  border-radius: 4px;
+  font: 800 .6rem/1 'Oswald', sans-serif;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 16px rgba(255,193,7,.5);
+}
+.brand-hero-content h1 {
+  font-size: clamp(1.8rem, 5vw, 3.4rem);
+  line-height: 1;
+  margin-bottom: 10px;
+  text-shadow: 0 4px 20px rgba(0,0,0,.6);
+}
+.brand-hero-content h1 span { color: var(--accent); }
+.brand-hero-content p {
+  max-width: 440px;
+  font-size: clamp(.76rem, 1.4vw, .95rem);
+  line-height: 1.5;
+  color: rgba(255,255,255,.95);
+  margin-bottom: 14px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.5);
+}
+.brand-hero-content .hero-cta {
+  border: 0;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+  color: var(--dark);
+  padding: 11px 20px;
+  border-radius: var(--radius-sm);
+  font: 800 .74rem 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  box-shadow: 0 6px 20px rgba(255,193,7,.5);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+.brand-hero-content .hero-cta:hover { transform: translateY(-2px); filter: brightness(1.08); }

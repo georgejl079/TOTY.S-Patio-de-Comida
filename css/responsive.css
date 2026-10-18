@@ -1,0 +1,119 @@
+/* ═══════════════════════════════════════════════════
+   7. ESCRITORIO - Estilos específicos para pantallas grandes
+   Media query (min-width: 769px): oculta barra móvil,
+   muestra header de escritorio, ajusta fondos por marca.
+   ═══════════════════════════════════════════════════ */
+@media (min-width: 769px) {
+  .mobile-only { display: none !important; }
+  .desktop-only { display: block; }
+  body { padding-top: 0; padding-bottom: 0; background: #fff; }
+  body.home-mode { background: #f4f7fc; }
+  body.chuy-mode { background: var(--chuy-bg); }
+  body.ruta9-mode { background: var(--r9-bg); }
+  body.product-open { padding-top: 0; padding-bottom: 0; }
+  .bottom-nav { display: none; }
+  .app-header { position: sticky; top: 0; }
+  .announcement { font-size: 0.68rem; padding: 11px; }
+  .header-mobile { display: none !important; }
+  .header-desktop {
+    display: grid !important;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 24px 22px;
+    gap: 24px;
+  }
+  .header-nav-left { display: flex; align-items: center; justify-content: flex-end; gap: 32px; }
+  .logo-center { font-size: 2.6rem; justify-self: center; grid-column: 2; letter-spacing: 2px; }
+  .header-nav-right { display: flex; align-items: center; justify-content: flex-start; gap: 14px; }
+  .header-nav-right .search-sticky { flex: 1; max-width: 300px; border-radius: 4px; }
+  .desktop-nav { display: flex; align-items: center; gap: 32px; }
+  .desktop-nav button {
+    background: none;
+    border: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #fff;
+    padding: 4px 0;
+    position: relative;
+    white-space: nowrap;
+    font-family: 'Oswald', sans-serif;
+    transition: color var(--transition-fast);
+  }
+  .desktop-nav button:hover { color: var(--accent); }
+  .desktop-nav button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+    border-radius: 3px;
+  }
+  .view { min-height: auto; }
+  body.product-open .view:not(#view-product) { display: none !important; }
+  .totys-hero { padding: 80px 32px 64px; }
+  .totys-hero h1 { font-size: 4.6rem; }
+  .brand-hero { max-width: 1200px; margin: 24px auto 0; border-radius: var(--radius-lg); aspect-ratio: 21/9; }
+  .brand-hero-content { left: 7%; bottom: 14%; }
+  .section-title { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+  .filters, .promo-scroll { max-width: 1200px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+  .grid { grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1200px; margin: 0 auto; padding: 0 24px 48px; }
+  .promo-scroll { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; overflow: visible; }
+  .promo-card { flex: unset; aspect-ratio: 4/3; height: auto; min-height: 0; }
+  .about-hero { max-width: 1200px; margin: 24px auto 0; border-radius: 12px; padding: 64px 32px; }
+  .about-hero h1 { font-size: 3.2rem; }
+  .about-content { max-width: 720px; padding: 48px 24px 80px; }
+  .about-info { grid-template-columns: 1fr 1fr; }
+  .site-footer-inner, .site-footer-bottom { max-width: 1200px; }
+  #view-product { padding-bottom: 0; }
+  .pd-page-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px 0;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .pd-gallery { background: transparent; }
+  .pd-main-img { border-radius: 8px; aspect-ratio: 4/5; }
+  .pd-thumbs { padding: 16px 0; }
+  .pd-body { padding: 0; max-width: none; }
+  .pd-name { font-size: 2.4rem; }
+  .pd-sticky-bar { display: none !important; }
+  .pd-actions-desktop { display: block; }
+  .cart-panel { max-width: 440px; }
+  .toast { bottom: 32px; }
+  body.product-open #app-header { display: block !important; }
+}
+.header-desktop { display: none; }
+
+/* ═══════════════════════════════════════════════════
+   7.1 MÓVIL - Ajustes específicos para pantallas pequeñas
+   Media query (max-width: 768px): oculta footer de
+   escritorio, ajusta tamaños de tipografía y logos.
+   ═══════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .site-footer { display: none; }
+  .section-title { padding: 18px 12px 10px; gap: 8px; }
+  .section-title h2 { font-size: 1.3rem; }
+  .section-title span { font-size: 0.78rem; }
+  body.product-open .bottom-nav { display: none; }
+  body.product-open { padding-bottom: calc(72px + var(--safe-b)); }
+  .announcement { font-size: .56rem; padding: 8px 8px; letter-spacing: 1.5px; }
+  .header-row { padding: 10px 12px; }
+  .logo-btn { font-size: 1.25rem; letter-spacing: 1px; }
+  .search-sticky { padding: 9px 12px; }
+  .totys-hero { padding: 40px 18px 36px; }
+  .brand-hero { aspect-ratio: 4/3.4; }
+  .brand-hero-content { left: 20px; right: 20px; bottom: 24px; }
+  .local-card-body { padding: 64px 20px 22px; }
+  .local-card-logo-wrap { width: 88px; height: 88px; bottom: -44px; }
+  .local-card-logo { font-size: 1.5rem; }
+  .local-card-logo i { font-size: 1.3rem; }
+  .cta-final-card { padding: 36px 22px; }
+}

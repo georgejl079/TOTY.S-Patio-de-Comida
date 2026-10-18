@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0a3d91">
+<meta name="description" content="TOTY'S · Patio de comida en Yacuiba: Chuy (pollos y bebidas) y Ruta 9 (hamburguesas). Catálogo online y atención por WhatsApp.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>TOTY'S | Patio de comida – Chuy & Ruta 9</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/brands.css">
+    <link rel="stylesheet" href="css/products.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="home-mode">
+<a href="#view-home" class="visually-hidden">Saltar al contenido principal</a>
+<header class="app-header" id="app-header">
+  <div class="announcement" id="announcement-text">TOTY'S · PATIO DE COMIDA · CHUY & RUTA 9</div>
+  <div class="header-inner">
+    <div class="header-row header-mobile">
+      <button type="button" class="logo-btn" id="mobile-logo" onclick="App.go('home')">TOTY'S</button>
+      <div class="search-sticky">
+        <i class="fas fa-search"></i>
+        <input type="search" id="search-input" placeholder="Buscar productos..." autocomplete="off" aria-label="Buscar productos">
+      </div>
+      <button type="button" class="icon-btn cart-btn dual" onclick="App.openCart()" aria-label="Ver pedido">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-badge badge-chuy" id="cart-badge-chuy">0</span>
+        <span class="cart-badge badge-ruta9" id="cart-badge-ruta9">0</span>
+      </button>
+    </div>
+    <div class="header-desktop">
+      <nav class="desktop-nav header-nav-left" aria-label="Navegación principal">
+        <button type="button" data-nav="home" onclick="App.go('home')">Inicio</button>
+        <button type="button" data-nav="chuy" onclick="App.go('chuy')">Chuy</button>
+        <button type="button" data-nav="ruta9" onclick="App.go('ruta9')">Ruta 9 <i class="fas fa-fire"></i></button>
+        <button type="button" data-nav="about" onclick="App.go('about')">Nosotros</button>
+      </nav>
+      <button type="button" class="logo-btn logo-center" id="desktop-logo" onclick="App.go('home')">TOTY'S</button>
+      <div class="header-nav-right">
+        <div class="search-sticky">
+          <i class="fas fa-search"></i>
+          <input type="search" id="search-input-desktop" placeholder="Buscar productos..." autocomplete="off" aria-label="Buscar productos">
+        </div>
+        <button type="button" class="icon-btn" onclick="App.sharePage()" aria-label="Compartir página"><i class="fas fa-share-alt"></i></button>
+        <button type="button" class="icon-btn cart-btn dual" onclick="App.openCart()" aria-label="Ver pedido">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-badge badge-chuy" id="cart-badge-desk-chuy">0</span>
+          <span class="cart-badge badge-ruta9" id="cart-badge-desk-ruta9">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="overlay" id="overlay" onclick="App.closeAll()"></div>
+<aside class="menu-sidebar" id="menu-sidebar" aria-label="Menú lateral">
+  <div class="menu-head">
+    <h2 id="menu-title">Menú</h2>
+    <button type="button" class="icon-btn" onclick="App.closeMenu()" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="menu-body" id="menu-content"></div>
+  <div class="menu-footer">
+    <a id="developer-link" href="#" target="_blank" rel="noopener noreferrer">Desarrollado por <strong>KEY STUDIO</strong></a>
+  </div>
+</aside>
+<main id="view-home" class="view active">
+  <section class="totys-home">
+        <section class="section-wrap" id="locales">
+      <div class="section-header">
+        <span class="eyebrow">Nuestros locales</span>
+        <h2>Dos marcas, un mismo patio</h2>
+        <p>En TOTY'S conviven Chuy y Ruta 9 con propuestas diferentes. Elige tu favorita y haz tu pedido por WhatsApp.</p>
+      </div>
+      <div class="locales-grid" id="locales-grid"></div>
+    </section>
+    <section class="section-wrap gallery-section" id="galeria">
+      <div class="section-header">
+        <span class="eyebrow">Galería</span>
+        <h2>Conoce nuestro patio</h2>
+        <p>Un vistazo a nuestro ambiente, cocina y los platos que preparamos todos los días.</p>
+      </div>
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </section>
+    <div class="totys-hours">
+      <h2>Horarios de atención</h2>
+      <div class="hours-grid">
+        <div class="hours-card morning">
+          <i class="fas fa-sun"></i>
+          <div>
+            <strong>Turno mañana</strong>
+            <span>Lunes a domingo · 11:00 – 15:00</span>
+          </div>
+        </div>
+        <div class="hours-card night">
+          <i class="fas fa-moon"></i>
+          <div>
+            <strong>Turno noche</strong>
+            <span>Lunes a domingo · 18:00 – 23:30</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<main id="view-chuy" class="view">
+  <div class="brand-hero">
+    <img src="img/locales/chuy-hero.jpg" alt="Chuy - Pollo a la broaster">
+    <div class="brand-hero-content">
+      <span class="eyebrow"><i class="fas fa-drumstick-bite"></i> Chuy · Pollos y bebidas</span>
+      <h1>Pollo a la <span>broaster</span></h1>
+      <p>La especialidad de Pollos Chuy.</p>
+      <button type="button" class="hero-cta" onclick="document.getElementById('chuy-grid').scrollIntoView({behavior:'smooth'})">Ver Menú <i class="fas fa-arrow-down"></i></button>
+    </div>
+  </div>
+  <div class="section-title">
+    <div><h2>Promociones</h2><span>Chuy</span></div>
+  </div>
+  <div class="promo-scroll" id="chuy-promos"></div>
+  <div class="section-title">
+    <div><h2>Productos</h2><span id="chuy-count"></span></div>
+  </div>
+  <div class="filters" id="chuy-filters"></div>
+  <div id="chuy-categories"></div>
+  <div class="grid" id="chuy-grid"></div>
+</main>
+<main id="view-ruta9" class="view">
+  <div class="brand-hero">
+    <img src="img/locales/ruta9-hero.jpg" alt="Ruta 9 - Hamburguesas al fuego">
+    <div class="brand-hero-content">
+      <span class="eyebrow"><i class="fas fa-fire"></i> Ruta 9 · Hamburguesas Ahumadas</span>
+      <h1>Hamburguesas <span>Ahumadas</span></h1>
+      <p>Papas crujientes y salsa especial.</p>
+      <button type="button" class="hero-cta" onclick="document.getElementById('ruta9-grid').scrollIntoView({behavior:'smooth'})">Ver Menú <i class="fas fa-arrow-down"></i></button>
+    </div>
+  </div>
+  <div class="section-title">
+    <div><h2>Promociones</h2><span>Ruta 9</span></div>
+  </div>
+  <div class="promo-scroll" id="ruta9-promos"></div>
+  <div class="section-title">
+    <div><h2>Menú</h2><span id="ruta9-count"></span></div>
+  </div>
+  <div class="filters" id="ruta9-filters"></div>
+  <div id="ruta9-categories"></div>
+  <div class="grid" id="ruta9-grid"></div>
+</main>
+<main id="view-product" class="view">
+  <div class="pd-topbar mobile-only" id="pd-topbar">
+    <button type="button" class="icon-btn" onclick="App.closeProduct()" aria-label="Volver"><i class="fas fa-arrow-left"></i></button>
+    <div style="display:flex;gap:8px;">
+      <button type="button" class="icon-btn" onclick="App.shareProduct(App.product && App.product.id)" aria-label="Compartir producto"><i class="fas fa-share-alt"></i></button>
+      <button type="button" class="icon-btn cart-btn dual" onclick="App.openCart()" aria-label="Ver pedido">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="cart-badge badge-chuy" id="cart-badge-pd-chuy">0</span>
+        <span class="cart-badge badge-ruta9" id="cart-badge-pd-ruta9">0</span>
+      </button>
+    </div>
+  </div>
+  <div class="pd-page-wrap">
+    <div class="pd-gallery">
+      <img class="pd-main-img" id="pd-main-img" src="" alt="">
+      <div class="pd-thumbs" id="pd-thumbs"></div>
+    </div>
+    <div class="pd-body">
+      <p class="pd-breadcrumb">
+        <button type="button" onclick="App.closeProduct()">Volver</button>
+        / <span id="pd-cat-label"></span>
+      </p>
+      <h1 class="pd-name" id="pd-name"></h1>
+      <p class="pd-price" id="pd-price"></p>
+      <p class="pd-stock"><i class="fas fa-check-circle"></i> Disponible · Calidad garantizada</p>
+      <button type="button" class="link-btn" style="margin-bottom:16px;display:flex;align-items:center;gap:6px;" onclick="App.shareProduct(App.product && App.product.id)"><i class="fas fa-share-alt"></i> Compartir producto</button>
+      <div class="pd-actions-desktop">
+        <button type="button" class="btn-add" onclick="App.addToCart()">Agregar al pedido <span id="pd-price-btn"></span></button>
+      </div>
+      <h3 class="opt-label" style="margin-top:24px;">Detalles del producto</h3>
+      <div class="pd-panel active" id="panel-details"></div>
+    </div>
+  </div>
+  <div class="pd-sticky-bar mobile-only">
+    <span class="price-mini" id="pd-price-sticky"></span>
+    <button type="button" class="btn-add" onclick="App.addToCart()">Agregar al pedido</button>
+  </div>
+</main>
+<main id="view-about" class="view">
+  <div class="about-hero">
+    <h1>TOTY'S</h1>
+    <p>Patio de comida · Chuy (pollos y bebidas) & Ruta 9 (hamburguesas) · Yacuiba, Bolivia</p>
+  </div>
+  <div class="about-content" id="about-content"></div>
+</main>
+<aside class="cart-panel" id="cart-panel" aria-label="Carrito de pedidos">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <h2 id="cart-title">Mi pedido</h2>
+    <button type="button" class="icon-btn" onclick="App.closeCart()" aria-label="Cerrar carrito"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="cart-items" style="flex:1;overflow-y:auto;"></div>
+  <div class="cart-footer">
+    <div style="display:flex;justify-content:space-between;font-weight:700;font-size:1.1rem;margin-bottom:8px;">
+      <span>Total estimado</span><span id="cart-total">Bs. 0</span>
+    </div>
+    <button type="button" class="btn-wa" onclick="App.whatsapp()"><i class="fab fa-whatsapp"></i> Pedir por WhatsApp</button>
+    <div id="cart-secondary-action" style="margin-top:10px;"></div>
+  </div>
+</aside>
+<div class="pf-modal-overlay" id="promo-modal-overlay" onclick="App.closePromoModal()"></div>
+<div class="pf-modal" id="promo-modal" role="dialog" aria-modal="true" aria-labelledby="promo-modal-title">
+  <button type="button" class="pf-modal-close" onclick="App.closePromoModal()" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+  <img class="pf-modal-img" id="promo-modal-img" src="" alt="">
+  <div class="pf-modal-body">
+    <p class="pf-modal-cat" id="promo-modal-cat"></p>
+    <h3 id="promo-modal-title"></h3>
+    <p class="pf-modal-desc" id="promo-modal-desc"></p>
+    <div id="promo-modal-details" style="margin-bottom:20px;"></div>
+    <div style="display:flex;gap:10px;margin-bottom:10px;">
+      <button type="button" class="btn-add" id="promo-modal-cta" style="margin-top:0;flex:1;padding:14px 16px;"><i class="fas fa-store"></i> Ver productos</button>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button type="button" class="btn-wa" id="promo-modal-wa" style="margin-top:0;flex:1;"><i class="fab fa-whatsapp"></i> Consultar promoción</button>
+      <button type="button" class="card-icon-btn" style="width:48px;height:48px;" id="promo-modal-share" aria-label="Compartir promoción"><i class="fas fa-share-alt"></i></button>
+    </div>
+  </div>
+</div>
+<div class="pf-modal-overlay" id="cart-selector-overlay" onclick="App.closeCartSelector()"></div>
+<div class="pf-modal" id="cart-selector" role="dialog" aria-modal="true">
+  <button type="button" class="pf-modal-close" onclick="App.closeCartSelector()" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+  <div class="pf-modal-body" style="padding-top:36px;">
+    <p class="pf-modal-cat">TOTY'S · Patio de comida</p>
+    <h3 style="margin-bottom:18px;">¿De qué marca quieres ver el pedido?</h3>
+    <p class="pf-modal-desc">Cada marca maneja su propio carrito y su propio WhatsApp. Elige cuál revisar.</p>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <button type="button" class="btn-add" style="background:linear-gradient(135deg,#ff1a1a,#cc0000);" onclick="App.closeCartSelector(); App.openCart('chuy');">
+        <i class="fas fa-drumstick-bite"></i> Pedido de Chuy <span id="selector-count-chuy" style="opacity:.85;">(0)</span>
+      </button>
+      <button type="button" class="btn-add" style="background:linear-gradient(135deg,#ff6a00,#ff2d00);" onclick="App.closeCartSelector(); App.openCart('ruta9');">
+        <i class="fas fa-fire"></i> Pedido de Ruta 9 <span id="selector-count-ruta9" style="opacity:.85;">(0)</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="pf-modal-overlay" id="manual-send-overlay" onclick="App.closeManualSendModal()"></div>
+<div class="pf-modal" id="manual-send-modal" role="dialog" aria-modal="true">
+  <button type="button" class="pf-modal-close" onclick="App.closeManualSendModal()" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+  <div class="pf-modal-body" style="padding-top:36px;">
+    <p class="pf-modal-cat" id="manual-send-cat">TOTY'S · Envío de pedidos</p>
+    <h3 id="manual-send-title" style="margin-bottom:10px;">Envía tu segundo pedido</h3>
+    <p class="pf-modal-desc" id="manual-send-desc">Tu navegador bloqueó la apertura automática. Toca el botón del local que falta para completar tu pedido.</p>
+    <div id="manual-send-details" style="margin-bottom:20px;"></div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <button type="button" class="btn-add" id="manual-send-a" style="padding:14px 16px;"><i class="fas fa-drumstick-bite"></i> Enviar a Chuy</button>
+      <button type="button" class="btn-add" id="manual-send-b" style="padding:14px 16px;background:linear-gradient(135deg,#ff6a00,#ff2d00);"><i class="fas fa-fire"></i> Enviar a Ruta 9</button>
+    </div>
+  </div>
+</div>
+<div class="pf-modal-overlay" id="gallery-modal-overlay" onclick="App.closeGalleryModal()"></div>
+<div class="pf-modal" id="gallery-modal" role="dialog" aria-modal="true">
+  <button type="button" class="pf-modal-close" onclick="App.closeGalleryModal()" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+  <img class="pf-modal-img" id="gallery-modal-img" src="" alt="">
+  <div class="pf-modal-body">
+    <p class="pf-modal-cat" id="gallery-modal-cat"></p>
+    <h3 id="gallery-modal-title"></h3>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<footer class="site-footer desktop-only">
+  <div class="site-footer-inner">
+    <div>
+      <h3>TOTY'S</h3>
+      <p>Patio de comida que reúne a Chuy (pollos y bebidas) y Ruta 9 (hamburguesas). Calidad, sabor y rapidez en Yacuiba.</p>
+    </div>
+    <div>
+      <h4>Navegación</h4>
+      <ul>
+        <li><button type="button" onclick="App.go('home')">Inicio</button></li>
+        <li><button type="button" onclick="App.go('chuy')">Chuy</button></li>
+        <li><button type="button" onclick="App.go('ruta9')">Ruta 9</button></li>
+        <li><button type="button" onclick="App.go('about')">Nosotros</button></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <ul>
+        <li><button type="button" onclick="App.whatsappBrand('totys')">WhatsApp TOTY'S: 75179990</button></li>
+        <li><button type="button" onclick="App.whatsappBrand('chuy')">WhatsApp Chuy: 70000001</button></li>
+        <li><button type="button" onclick="App.whatsappBrand('ruta9')">WhatsApp Ruta 9: 70000002</button></li>
+        <li><span style="opacity:0.85;font-size:0.85rem;">Yacuiba, Bolivia</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="site-footer-bottom">
+    <span>© <span id="footer-year"></span> TOTY'S. Todos los derechos reservados.</span>
+    <a id="footer-developer" class="footer-dev" href="#" target="_blank" rel="noopener noreferrer">Desarrollado por <strong>KEY STUDIO</strong></a>
+  </div>
+</footer>
+<nav class="bottom-nav" id="bottom-nav" aria-label="Navegación inferior">
+  <button type="button" class="tab active" data-view="home" onclick="App.go('home')"><i class="fas fa-home"></i><span>Inicio</span></button>
+  <button type="button" class="tab tab-chuy" data-view="chuy" onclick="App.go('chuy')">
+    <i class="fas fa-drumstick-bite"></i><span>Chuy</span>
+    <span class="tab-badge chuy" id="tab-badge-chuy">0</span>
+  </button>
+  <button type="button" class="tab tab-fire" data-view="ruta9" onclick="App.go('ruta9')">
+    <i class="fas fa-fire"></i><span>Ruta 9</span>
+    <span class="tab-badge ruta9" id="tab-badge-ruta9">0</span>
+  </button>
+  <button type="button" class="tab" data-view="about" onclick="App.go('about')"><i class="fas fa-info-circle"></i><span>Nosotros</span></button>
+  <button type="button" class="tab" data-view="cart" onclick="App.openCart()"><i class="fas fa-shopping-bag"></i><span>Pedido</span></button>
+</nav>
+    <script src="js/catalog.js" defer></script>
+    <script src="js/app.js" defer></script>
+</body>
+</html>
