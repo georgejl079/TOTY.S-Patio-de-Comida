@@ -475,12 +475,10 @@ const App = {
      FUNCIÓN: whatsappFor(brand)
      ═══════════════════════════════════════════════════
      Qué hace: Retorna el número de WhatsApp de la marca
-     especificada (Chuy, Ruta 9 o TOTY'S general).
+     especificada (Chuy o Ruta 9).
   ═══════════════════════════════════════════════════ */
   whatsappFor(brand) {
-    if (brand === 'chuy') return CONFIG.whatsapp.chuy;
-    if (brand === 'ruta9') return CONFIG.whatsapp.ruta9;
-    return CONFIG.whatsapp.totys;
+    return CONFIG.whatsapp[brand];
   },
 
   /* ═══════════════════════════════════════════════════
@@ -942,7 +940,6 @@ const App = {
         <p class="menu-label">TOTY'S</p>
         <button type="button" class="menu-link" onclick="App.go('home'); App.closeMenu();"><i class="fas fa-home"></i> Inicio</button>
         <button type="button" class="menu-link" onclick="App.go('about'); App.closeMenu();"><i class="fas fa-info-circle"></i> Sobre TOTY'S</button>
-        <button type="button" class="menu-link" onclick="App.whatsappBrand('totys'); App.closeMenu();"><i class="fab fa-whatsapp"></i> WhatsApp TOTY'S</button>
         <button type="button" class="menu-link" onclick="App.sharePage(); App.closeMenu();"><i class="fas fa-share-alt"></i> Compartir tienda</button>
       `;
     }
@@ -1657,7 +1654,7 @@ const App = {
      FUNCIÓN: renderBranches()
      ═══════════════════════════════════════════════════
      Qué hace: Renderiza las tarjetas de sucursales
-     (TOTY'S, Chuy y Ruta 9) con dirección, teléfono,
+     (Chuy y Ruta 9) con dirección, teléfono,
      horarios y enlaces a redes sociales.
   ═══════════════════════════════════════════════════ */
   renderBranches() {
