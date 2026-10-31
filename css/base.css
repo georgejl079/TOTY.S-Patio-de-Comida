@@ -535,9 +535,9 @@ body.product-open #view-product { display: block !important; }
 }
 .branch-head { display: flex; gap: 14px; align-items: center; margin-bottom: 14px; }
 .branch-logo {
-  width: 52px; height: 52px;
+  width: 72px; height: 72px;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  background: #fff;
   color: #fff;
   display: flex;
   align-items: center;
@@ -546,7 +546,7 @@ body.product-open #view-product { display: block !important; }
   font-weight: 700;
   font-size: 1.1rem;
   flex-shrink: 0;
-  border: 2px solid var(--accent);
+  overflow: hidden;
 }
 .branch-name {
   font-family: 'Oswald', sans-serif;

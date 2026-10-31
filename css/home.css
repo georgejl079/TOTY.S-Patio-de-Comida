@@ -253,13 +253,14 @@
   hyphens: auto;
 }
 .local-card-body.chuy h3 { color: var(--chuy-dark); }
-.local-card-body.ruta9 h3 { color: #1a1a1a; }
+.local-card.ruta9 .local-card-logo,
+.local-card.ruta9 .local-card-logo-wrap { transform: scale(1.15); }
 
 /* ═══ LOGO DENTRO DE LA TARJETA DE LOCAL ═══ */
 .local-card-logo-wrap {
   /* Tamaño móvil: 86px para que no tape el texto */
-  width: 86px;
-  height: 86px;
+  width: 100px;
+  height: 100px;
   margin: 0 auto 12px;        /* Centrado horizontal + separación inferior */
   display: flex;
   align-items: center;
@@ -270,8 +271,8 @@
 }
 .local-card-logo {
   /* Tamaño del logo en móvil */
-  width: 70px;
-  height: 70px;
+  width: 86px;
+  height: 86px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -286,8 +287,8 @@
 /* Responsive para logo del local - Tablet y desktop */
 @media (min-width: 620px) {
   /* En pantallas grandes: logo más grande, igual que antes */
-  .local-card-logo-wrap { width: 150px; height: 150px; }
-  .local-card-logo { width: 130px; height: 130px; font-size: 2.6rem; }
+  .local-card-logo-wrap { width: 170px; height: 170px; }
+  .local-card-logo { width: 150px; height: 150px; font-size: 2.6rem; }
   .local-card-body { padding: 68px 28px 28px; }
 }
 /* Responsive para logo del local - Móvil */

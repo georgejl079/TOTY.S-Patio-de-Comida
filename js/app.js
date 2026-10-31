@@ -595,17 +595,17 @@ const App = {
     if (brand === 'chuy') {
       // Cambia todo a modo Chuy (pollos)
       logos.forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = logoImgHtml || 'Chuy'; });
-      if (announcement) announcement.textContent = '🔥 CHUY · POLLOS Y BEBIDAS · DELIVERY · WHATSAPP 🍗';
+      if (announcement) announcement.textContent = '';
       if (menuTitle) menuTitle.textContent = 'Chuy';
     } else if (brand === 'ruta9') {
       // Cambia todo a modo Ruta 9 (hamburguesas)
       logos.forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = logoImgHtml || 'Ruta 9 <i class="fas fa-fire" style="font-size:0.8em;"></i>'; });
-      if (announcement) announcement.textContent = '🔥 RUTA 9 · HAMBURGUESAS AL FUEGO · DELIVERY · WHATSAPP 🍔';
+      if (announcement) announcement.textContent = '';
       if (menuTitle) menuTitle.textContent = 'Ruta 9';
     } else {
       // Cambia todo a modo TOTY'S (general)
       logos.forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = logoImgHtml || 'TOTY\'S'; });
-      if (announcement) announcement.textContent = '🍽️ TOTY\'S · PATIO DE COMIDA · CHUY & RUTA 9';
+      if (announcement) announcement.textContent = '';
       if (menuTitle) menuTitle.textContent = 'Menú';
     }
     // Actualiza el menú lateral
@@ -703,7 +703,7 @@ const App = {
             : '<p class="empty">Productos próximamente.</p>';
           return `<div class="cat-section">
             <div class="section-title cat-section-title">
-              <div>${tagline}<h2>${c.name}</h2></div>
+               <div><h2>${c.name}</h2></div>
               <button type="button" class="link-btn" onclick="App.filterBrand('${brand}','${c.id}')">Ver todo <i class="fas fa-chevron-right"></i></button>
             </div>
             ${categoryContent}
@@ -761,10 +761,9 @@ const App = {
      y botones (ver detalles, WhatsApp, compartir).
   ═══════════════════════════════════════════════════ */
   productCard(p) {
-    const brandTag = p.brand ? `<span class="brand-tag">${p.brand}</span>` : '';
     return `<div class="card">
       <button type="button" class="card-img-btn" onclick="App.openProduct(${p.id})" aria-label="Ver ${p.name}">
-        <div class="card-img"><img src="${p.img}" alt="${p.name}" loading="lazy">${brandTag}</div>
+        <div class="card-img"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
       </button>
       <button type="button" class="card-info" onclick="App.openProduct(${p.id})">
         <h4>${p.name}</h4>
@@ -1623,8 +1622,8 @@ const App = {
       <div class="about-block"><h3>Servicios</h3><p>${s.services}</p></div>
       <div class="about-block"><h3>Horarios</h3>
         <div class="hours-grid" style="margin-top:12px;">
-          <div class="hours-card morning"><i class="fas fa-sun"></i><div><strong>Turno mañana</strong><span>${s.hoursMorning}</span></div></div>
-          <div class="hours-card night"><i class="fas fa-moon"></i><div><strong>Turno noche</strong><span>${s.hoursNight}</span></div></div>
+          <div class="hours-card morning"><i class="fas fa-sun"></i><div><strong>Almuerzo</strong><span>${s.hoursMorning}</span></div></div>
+          <div class="hours-card night"><i class="fas fa-moon"></i><div><strong>Cena</strong><span>${s.hoursNight}</span></div></div>
         </div>
       </div>
       <div class="about-block branches-section">
@@ -1639,12 +1638,6 @@ const App = {
           <div class="info-card"><i class="fas fa-motorcycle"></i><div><strong>Delivery coordinado</strong><span>Pedidos por WhatsApp con entrega a domicilio.</span></div></div>
           <div class="info-card"><i class="fas fa-users"></i><div><strong>Atención personalizada</strong><span>Te ayudamos a elegir lo mejor para tu antojo.</span></div></div>
         </div>
-      </div>
-      <div class="about-info">
-        <div class="info-card"><i class="fas fa-sun"></i><div><strong>Turno mañana</strong><span>${s.hoursMorning}</span></div></div>
-        <div class="info-card"><i class="fas fa-moon"></i><div><strong>Turno noche</strong><span>${s.hoursNight}</span></div></div>
-        <div class="info-card"><i class="fas fa-map-marker-alt"></i><div><strong>Ubicación</strong><span>${s.address}</span></div></div>
-        <div class="info-card"><i class="fab fa-instagram"></i><div><strong>Instagram</strong><span>${s.instagram}</span></div></div>
       </div>
     `;
     this.renderBranches();
@@ -1661,7 +1654,7 @@ const App = {
     document.getElementById('branches-grid').innerHTML = branches.map(b => `
       <div class="branch-card">
         <div class="branch-head">
-          <div class="branch-logo">${b.initials}</div>
+          <div class="branch-logo">${b.logoImg ? `<img src="${b.logoImg}" alt="${b.name}" style="width:100%;height:100%;object-fit:contain;">` : b.initials}</div>
           <div>
             <div class="branch-name">${b.name}</div>
             <div class="branch-loc"><i class="fas fa-map-marker-alt"></i>${b.location}</div>
@@ -1675,8 +1668,8 @@ const App = {
         </div>
         <div class="branch-social">
           <a class="wa" href="https://wa.me/${b.whatsapp}" target="_blank" rel="noopener" aria-label="WhatsApp ${b.name}"><i class="fab fa-whatsapp"></i></a>
-          <a href="${b.facebook}" target="_blank" rel="noopener" aria-label="Facebook ${b.name}"><i class="fas fa-facebook-f"></i></a>
-          <a href="${b.instagram}" target="_blank" rel="noopener" aria-label="Instagram ${b.name}"><i class="fas fa-instagram"></i></a>
+<a href="${b.facebook}" target="_blank" rel="noopener" aria-label="Facebook ${b.name}"><i class="fab fa-facebook-f"></i></a>
+           <a href="${b.instagram}" target="_blank" rel="noopener" aria-label="Instagram ${b.name}"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
     `).join('');

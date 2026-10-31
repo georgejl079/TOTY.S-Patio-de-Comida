@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0a3d91">
 <meta name="description" content="TOTY'S · Patio de comida en Yacuiba: Chuy (pollos y bebidas) y Ruta 9 (hamburguesas). Catálogo online y atención por WhatsApp.">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>TOTY'S | Patio de comida – Chuy & Ruta 9</title>
+<title>TOTY'S | Patio de comida – Pollos Chuy & Ruta 9</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -20,7 +20,6 @@
 <body class="home-mode">
 <a href="#view-home" class="visually-hidden">Saltar al contenido principal</a>
 <header class="app-header" id="app-header">
-  <div class="announcement" id="announcement-text">TOTY'S · PATIO DE COMIDA</div>
   <div class="header-inner">
     <div class="header-row header-mobile">
       <button type="button" class="logo-btn" id="mobile-logo" onclick="App.go('home')">TOTY'S</button>
@@ -56,6 +55,7 @@
       </div>
     </div>
   </div>
+  <div class="announcement" id="announcement-text"></div>
 </header>
 <div class="overlay" id="overlay" onclick="App.closeAll()"></div>
 <aside class="menu-sidebar" id="menu-sidebar" aria-label="Menú lateral">
@@ -73,8 +73,8 @@
         <section class="section-wrap" id="locales">
       <div class="section-header">
         <span class="eyebrow">Nuestros locales</span>
-        <h2>Dos marcas, un mismo patio</h2>
-        <p>En TOTY'S conviven Chuy y Ruta 9 con propuestas diferentes. Elige tu favorita y haz tu pedido por WhatsApp.</p>
+        <h2>Dos marcas, un mismo Lugar</h2>
+        <p>En TOTY'S conviven PollosChuy y Ruta 9 con propuestas diferentes. Elige tu favorita y haz tu pedido por WhatsApp.</p>
       </div>
       <div class="locales-grid" id="locales-grid"></div>
     </section>
@@ -92,15 +92,15 @@
         <div class="hours-card morning">
           <i class="fas fa-sun"></i>
           <div>
-            <strong>Turno mañana</strong>
-            <span>Lunes a domingo · 11:00 – 15:00</span>
+            <strong>Almuerzo</strong>
+            <span>Mier – Lun: 11:30 – 14:00</span>
           </div>
         </div>
         <div class="hours-card night">
           <i class="fas fa-moon"></i>
           <div>
-            <strong>Turno noche</strong>
-            <span>Lunes a domingo · 18:00 – 23:30</span>
+            <strong>Cena</strong>
+            <span>Mier – Lun: 18:00 – 22:00</span>
           </div>
         </div>
       </div>
@@ -134,10 +134,6 @@
       <button type="button" class="hero-cta" onclick="document.getElementById('ruta9-grid').scrollIntoView({behavior:'smooth'})">Ver Menú <i class="fas fa-arrow-down"></i></button>
     </div>
   </div>
-  <div class="section-title">
-    <div><h2>Promociones</h2><span>Ruta 9</span></div>
-  </div>
-  <div class="promo-scroll" id="ruta9-promos"></div>
   <div class="section-title">
     <div><h2>Menú</h2><span id="ruta9-count"></span></div>
   </div>
@@ -184,10 +180,6 @@
   </div>
 </main>
 <main id="view-about" class="view">
-  <div class="about-hero">
-    <h1>TOTY'S</h1>
-    <p>Patio de comida · Chuy (pollos y bebidas) & Ruta 9 (hamburguesas) · Yacuiba, Bolivia</p>
-  </div>
   <div class="about-content" id="about-content"></div>
 </main>
 <aside class="cart-panel" id="cart-panel" aria-label="Carrito de pedidos">
@@ -231,7 +223,7 @@
     <p class="pf-modal-desc">Cada marca maneja su propio carrito y su propio WhatsApp. Elige cuál revisar.</p>
     <div style="display:flex;flex-direction:column;gap:12px;">
       <button type="button" class="btn-add" style="background:linear-gradient(135deg,#ff1a1a,#cc0000);" onclick="App.closeCartSelector(); App.openCart('chuy');">
-        <i class="fas fa-drumstick-bite"></i> Pedido de Chuy <span id="selector-count-chuy" style="opacity:.85;">(0)</span>
+        <i class="fas fa-drumstick-bite"></i> Pedido de Pollos Chuy <span id="selector-count-chuy" style="opacity:.85;">(0)</span>
       </button>
       <button type="button" class="btn-add" style="background:linear-gradient(135deg,#ff6a00,#ff2d00);" onclick="App.closeCartSelector(); App.openCart('ruta9');">
         <i class="fas fa-fire"></i> Pedido de Ruta 9 <span id="selector-count-ruta9" style="opacity:.85;">(0)</span>
@@ -267,7 +259,7 @@
   <div class="site-footer-inner">
     <div>
       <h3>TOTY'S</h3>
-      <p>Patio de comida que reúne a Chuy (pollos y bebidas) y Ruta 9 (hamburguesas). Calidad, sabor y rapidez en Yacuiba.</p>
+      <p>Patio de comida que reúne a Pollos Chuy (pollos y bebidas) y Ruta 9 (hamburguesas). Calidad, sabor y rapidez en Yacuiba.</p>
     </div>
     <div>
       <h4>Navegación</h4>
@@ -295,11 +287,11 @@
 <nav class="bottom-nav" id="bottom-nav" aria-label="Navegación inferior">
   <button type="button" class="tab active" data-view="home" onclick="App.go('home')"><i class="fas fa-home"></i><span>Inicio</span></button>
   <button type="button" class="tab tab-chuy" data-view="chuy" onclick="App.go('chuy')">
-    <i class="fas fa-drumstick-bite"></i><span>Chuy</span>
+    <img src="img/locales/chuy-logo.png" alt="Chuy" style="width:40px;height:40px;object-fit:contain;">
     <span class="tab-badge chuy" id="tab-badge-chuy">0</span>
   </button>
   <button type="button" class="tab tab-fire" data-view="ruta9" onclick="App.go('ruta9')">
-    <i class="fas fa-fire"></i><span>Ruta 9</span>
+    <img src="img/locales/ruta9-logo.png" alt="Ruta 9" style="width:52px;height:52px;object-fit:contain;">
     <span class="tab-badge ruta9" id="tab-badge-ruta9">0</span>
   </button>
   <button type="button" class="tab" data-view="about" onclick="App.go('about')"><i class="fas fa-info-circle"></i><span>Nosotros</span></button>

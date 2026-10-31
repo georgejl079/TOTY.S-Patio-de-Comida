@@ -18,13 +18,13 @@ const CONFIG = {
     name: 'TOTY\'S',
     logoImg: 'img/locales/toty-logo.png',
     tagline: 'Patio de comida',
-    story: 'TOTY\'S nació en Yacuiba con la idea de reunir en un solo patio dos propuestas que ya eran favoritas de la gente: Chuy, especializada en pollos a la brasa y bebidas, y Ruta 9, especializada en hamburguesas al fuego, papas y alitas. Con el tiempo nos convertimos en un punto de encuentro para familias, amigos y oficinistas que buscan comer rico, rápido y a buen precio.',
+    story: 'Una historia familiar, sabores que nos identifican. Toty’s Food Place es un emprendimiento gastronómico familiar ubicado en Yacuiba, nacido del esfuerzo, la perseverancia y el deseo de construir un proyecto propio a partir de los ahorros y la herencia de nuestros padres. Su nombre, Toty’s, rinde un homenaje lleno de cariño a nuestra madre, cuyo sobrenombre permanece vivo en cada etapa de este sueño. Con la ilusión de convertir una infraestructura propia en un espacio de encuentro y crecimiento, Toty’s Food Center fue concebido para albergar propuestas gastronómicas capaces de ofrecer experiencias diferentes, pero unidas por una misma filosofía: brindar buena comida, atención cercana y momentos para compartir. La primera gran apuesta fue conseguir la franquicia de Pollos Chuy, reconocida cadena de comida rápida con trayectoria en Santa Cruz de la Sierra. Este logro representó un importante paso en la consolidación del emprendimiento y el comienzo de un camino marcado por el trabajo constante y la confianza en nuestras posibilidades. Posteriormente, inspirados por los sabores, las costumbres y la identidad de nuestra región chaqueña, nació Ruta 9 – Sabores del Sur, una propuesta gastronómica que combina la esencia de la comida rápida con ese toque ahumado tan característico del Chaco. En Toty’s Food Place creemos que los negocios se construyen con trabajo, pero su verdadero valor se consolida con las personas, los recuerdos y los vínculos que nacen a su alrededor. Nuestra historia honra a quienes nos dieron el punto de partida, celebra los sabores que nos representan y continúa construyéndose junto a cada persona que nos elige. Porque detrás de cada plato hay una historia familiar y, en cada visita, una nueva oportunidad para compartir.',
     mission: 'Ofrecer a las familias y a la ciudad de Yacuiba experiencias gastronómicas de calidad, a través de propuestas de comida rápida que combinan sabor, tradición, innovación y la identidad de nuestra región chaqueña. Trabajamos con compromiso, esfuerzo y calidez humana para brindar productos de calidad.',
     vision: 'Consolidarnos como un referente gastronómico de Yacuiba y la región del Chaco, reconocidos por la calidad de nuestros productos, la identidad de nuestras propuestas y la calidez de nuestra atención. Aspiramos a fortalecer el crecimiento de Toty’s Food Place, preservar su esencia familiar y desarrollar nuestras marcas gastronómicas de manera sostenible, creando experiencias que permanezcan en la memoria de nuestros clientes y transmitiendo a las futuras generaciones el valor del esfuerzo, la perseverancia y el compromiso.',
     values: 'Calidad, limpieza, puntualidad, respeto por el cliente y pasión por la cocina. Creemos que una buena comida puede alegrar el día de las personas.',
     services: 'Atención en local, pedidos para llevar, delivery coordinado por WhatsApp y opciones para compartir en familia o con amigos. Cada marca tiene su propio canal de pedidos.',
-    hoursMorning: 'Lun – Dom: 11:00 – 15:00',
-    hoursNight: 'Lun – Dom: 18:00 – 23:00',
+    hoursMorning: 'Mier – Lun: 11:30 – 14:00',
+    hoursNight: 'Mier – Lun: 18:00 – 22:00',
     address: 'Yacuiba, Bolivia',
     email: 'ventas@totys.bo',
     instagram: '@totys.bo'
@@ -49,8 +49,8 @@ const locales = [
     meta: [
       { icon: 'fa-drumstick-bite', text: 'Pollos a la Broaster' },
       { icon: 'fa-glass-water', text: 'Bebidas frías' },
-      { icon: 'fa-clock', text: 'Mañana: 11:00 – 15:00' },
-      { icon: 'fa-clock', text: 'Noche: 18:00 – 23:30' }
+      { icon: 'fa-clock', text: 'Almuerzo: 11:30 – 14:00' },
+      { icon: 'fa-clock', text: 'Cena: 18:00 – 22:00' }
     ],
     action: 'chuy',
     badge: 'Chuy',
@@ -67,8 +67,8 @@ const locales = [
     meta: [
       { icon: 'fa-burger', text: 'Hamburguesas' },
       { icon: 'fa-fire', text: 'Ahumadas' },
-      { icon: 'fa-clock', text: 'Mañana: 11:00 – 15:00' },
-      { icon: 'fa-clock', text: 'Noche: 18:00 – 23:30' }
+      { icon: 'fa-clock', text: 'Almuerzo: 11:30 – 14:00' },
+      { icon: 'fa-clock', text: 'Cena: 18:00 – 22:00' }
     ],
     action: 'ruta9',
     badge: 'Ruta 9',
@@ -294,12 +294,14 @@ const products = Object.values(catalogByBrand).flatMap(brand => brand.products.f
 const promotions = Object.values(catalogByBrand).flatMap(brand => brand.promotions.filter(promotion => !promotion.hidden));
 
 const branches = [
-  { id: 1, name: 'Chuy — Pollos y bebidas', location: 'Yacuiba', initials: 'CH',
+  { id: 1, name: 'Pollos Chuy', location: 'Yacuiba', initials: 'CH',
     address: 'Completar dirección de Chuy, Yacuiba', phone: '72988493', whatsapp: CONFIG.whatsapp.chuy,
-    hoursMorning: 'Lun – Dom: 11:00 – 15:00', hoursNight: 'Lun – Dom: 18:00 – 23:00',
-    facebook: 'https://facebook.com/chuy.bo', instagram: 'https://instagram.com/chuy.bo' },
-  { id: 2, name: 'Ruta 9 — Hamburguesas', location: 'Yacuiba', initials: 'R9',
+    logoImg: 'img/locales/chuy-logo.png',
+    hoursMorning: 'Mier – Lun: 11:30 – 14:00', hoursNight: 'Mier – Lun: 18:00 – 22:00',
+    facebook: 'https://www.facebook.com/share/1EUPJgrsGc/?mibextid=wwXIfr', instagram: 'https://instagram.com/chuy.bo' },
+  { id: 2, name: 'Hamburguesas Ruta 9', location: 'Yacuiba', initials: 'R9',
     address: 'Completar dirección de Ruta 9, Yacuiba', phone: '72995911', whatsapp: CONFIG.whatsapp.ruta9,
-    hoursMorning: 'Lun – Dom: 11:00 – 15:00', hoursNight: 'Lun – Dom: 18:00 – 23:00',
-    facebook: 'https://facebook.com/ruta9.bo', instagram: 'https://instagram.com/ruta9.bo' }
+    logoImg: 'img/locales/ruta9-logo.png',
+    hoursMorning: 'Mier – Lun: 11:30 – 14:00', hoursNight: 'Mier – Lun: 18:00 – 22:00',
+    facebook: 'https://www.facebook.com/share/19pSqJTgZq/?mibextid=wwXIfr', instagram: 'https://instagram.com/ruta9.bo' }
 ];
