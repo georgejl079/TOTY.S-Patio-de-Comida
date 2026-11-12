@@ -206,14 +206,23 @@ const App = {
     // Guarda el scroll cuando se cierra la página
     window.addEventListener('pagehide', () => this.saveScroll());
 
-    // Verifica si se compartió un producto específico
+    // Verifica si se compartió un producto específico (compatibilidad)
     const sharedId = new URLSearchParams(window.location.search).get('producto');
-    if (location.hash) {
+    const cleanUrl = () => {
+      if (sharedId) {
+        const u = new URL(window.location.href);
+        u.searchParams.delete('producto');
+        history.replaceState(null, '', u.pathname + u.search + (location.hash || '#/'));
+      }
+    };
+    if (sharedId && products.some(p => p.id === Number(sharedId))) {
+      cleanUrl();
+      location.hash = '#/producto/' + sharedId;
+      this.applyRoute(this.parseHash(), true);
+    } else if (location.hash) {
+      cleanUrl();
       // Si hay una URL con hash, aplica esa ruta
       this.applyRoute(this.parseHash(), true);
-    } else if (sharedId && products.some(p => p.id === Number(sharedId))) {
-      // Si se compartió un producto, abre ese producto
-      this.openProduct(sharedId);
     } else {
       // Si no hay nada, va al inicio
       history.replaceState(null, '', location.pathname + location.search + '#/');
@@ -250,13 +259,15 @@ const App = {
     // Limpia el hash (quita el # y las barras al inicio)
     const raw = (location.hash || '').replace(/^#\/?/, '');
     // Separa las partes por las barras
-    const parts = raw.split('/').filter(Boolean);
+    const [path, query = ''] = raw.split('?');
+    const parts = path.split('/').filter(Boolean);
+    const params = new URLSearchParams(query);
     // Si no hay nada, va al inicio
     if (!parts.length) return { view: 'home' };
     // Si es "chuy", va a la página de Chuy
-    if (parts[0] === 'chuy') return { view: 'chuy' };
+    if (parts[0] === 'chuy') return { view: 'chuy', cat: params.get('cat') };
     // Si es "ruta9", va a la página de Ruta 9
-    if (parts[0] === 'ruta9') return { view: 'ruta9' };
+    if (parts[0] === 'ruta9') return { view: 'ruta9', cat: params.get('cat') };
     // Si es "nosotros", va a la página "Acerca de"
     if (parts[0] === 'nosotros') return { view: 'about' };
     // Si es "producto" con un ID, abre ese producto
@@ -279,8 +290,10 @@ const App = {
       // Si no existe, va al inicio
       else this.go('home', {}, { silent: true });
     } else {
+      const opts = {};
+      if ((route.view === 'chuy' || route.view === 'ruta9') && route.cat) opts.cat = route.cat;
       // Para cualquier otra vista, cambia a esa vista
-      this.go(route.view, {}, { silent: true });
+      this.go(route.view, opts, { silent: true });
     }
     if (isInitialLoad) this.restoreScroll(route.view);
   },
@@ -304,12 +317,12 @@ const App = {
      Qué hace: Actualiza la URL cuando el usuario navega.
      Por ejemplo, si va a Chuy, cambia la URL a #/chuy.
   ═══════════════════════════════════════════════════ */
-  updateHash(view) {
+  updateHash(view, opts = {}) {
     let hash;
     // Define el hash según la vista
     if (view === 'home') hash = '#/';
-    else if (view === 'chuy') hash = '#/chuy';
-    else if (view === 'ruta9') hash = '#/ruta9';
+    else if (view === 'chuy') hash = '#/chuy' + (opts.cat && opts.cat !== 'all' ? '?cat=' + encodeURIComponent(opts.cat) : '');
+    else if (view === 'ruta9') hash = '#/ruta9' + (opts.cat && opts.cat !== 'all' ? '?cat=' + encodeURIComponent(opts.cat) : '');
     else if (view === 'about') hash = '#/nosotros';
     else return;
     // Solo actualiza si el hash es diferente
@@ -547,21 +560,41 @@ const App = {
       t.classList.toggle('active', t.dataset.view === view);
     });
 
-    // Si vamos a Chuy o Ruta 9, renderiza sus productos
-    if (view === 'chuy') this.renderBrandGrid('chuy', this.chuyFilter);
-    if (view === 'ruta9') this.renderBrandGrid('ruta9', this.ruta9Filter);
+    if (view === 'chuy') {
+      const cat = (opts.cat && categories.some(c => c.brand === 'chuy' && c.id === opts.cat)) ? opts.cat : 'all';
+      this.chuyFilter = cat;
+      this.renderBrandGrid('chuy', cat);
+      if (!navOpts.silent && opts.cat && opts.cat !== 'all') {
+        setTimeout(() => this.scrollToCategorySection('chuy', cat), 50);
+      }
+    }
+    if (view === 'ruta9') {
+      const cat = (opts.cat && categories.some(c => c.brand === 'ruta9' && c.id === opts.cat)) ? opts.cat : 'all';
+      this.ruta9Filter = cat;
+      this.renderBrandGrid('ruta9', cat);
+      if (!navOpts.silent && opts.cat && opts.cat !== 'all') {
+        setTimeout(() => this.scrollToCategorySection('ruta9', cat), 50);
+      }
+    }
 
     // Si no es una navegación silenciosa, hace scroll al inicio
     if (!navOpts.silent) {
       if (view === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
       if (view === 'about') window.scrollTo({ top: 0 });
+      if ((view === 'chuy' || view === 'ruta9') && !(opts && opts.cat && opts.cat !== 'all')) {
+        window.scrollTo({ top: 0 });
+      }
     }
     // Actualiza la navegación de desktop
     this.setDesktopNav(view);
     // Actualiza la URL (si no es silencioso)
-    if (!navOpts.silent) this.updateHash(view);
+    if (!navOpts.silent) {
+      const hashOpts = (view === 'chuy' || view === 'ruta9') ? { cat: (view === 'chuy' ? this.chuyFilter : this.ruta9Filter) } : {};
+      this.updateHash(view, hashOpts);
+    }
     // Actualiza el contador del carrito
     this.updateCart();
+    this.updateMetaForView(view, opts);
   },
 
   /* ═══════════════════════════════════════════════════
@@ -701,10 +734,13 @@ const App = {
           const categoryContent = catProducts.length
             ? `<div class="grid">${catProducts.map(p => this.productCard(p)).join('')}</div>`
             : '<p class="empty">Productos próximamente.</p>';
-          return `<div class="cat-section">
+          return `<div class="cat-section" id="cat-${brand}-${c.id}">
             <div class="section-title cat-section-title">
-               <div><h2>${c.name}</h2></div>
-              <button type="button" class="link-btn" onclick="App.filterBrand('${brand}','${c.id}')">Ver todo <i class="fas fa-chevron-right"></i></button>
+               <div><h2>${c.name}</h2><span>${catProducts.length} productos</span></div>
+              <div style="display:flex;gap:10px;align-items:center;">
+                <button type="button" class="link-btn" onclick="App.shareCategory('${brand}','${c.id}')" aria-label="Compartir categoría"><i class="fas fa-share-alt"></i> Compartir</button>
+                <button type="button" class="link-btn" onclick="App.filterBrand('${brand}','${c.id}')">Ver todo <i class="fas fa-chevron-right"></i></button>
+              </div>
             </div>
             ${categoryContent}
           </div>`;
@@ -737,7 +773,13 @@ const App = {
   filterBrand(brand, cat) {
     if (brand === 'chuy') this.chuyFilter = cat;
     else this.ruta9Filter = cat;
+    if (this.view === brand) {
+      this._settingHash = true;
+      this.updateHash(brand, { cat });
+      this._settingHash = false;
+    }
     this.renderBrandGrid(brand, cat);
+    if (cat !== 'all') this.scrollToCategorySection(brand, cat);
   },
 
   /* ═══════════════════════════════════════════════════
@@ -846,6 +888,7 @@ const App = {
       location.hash = '#/producto/' + p.id;
     }
     this.updateCart();
+    this.updateMeta(`${p.name} · ${prodBrand === 'ruta9' ? 'Ruta 9' : 'Pollos Chuy'} | TOTY'S`, `${p.name} — Bs. ${p.price}. Disponible en ${prodBrand === 'ruta9' ? 'Ruta 9' : 'Pollos Chuy'}, TOTY'S Yacuiba.`);
   },
 
   /* ═══════════════════════════════════════════════════
@@ -1472,11 +1515,59 @@ const App = {
     }, 100);
   },
 
-  productUrl(id) {
+  scrollToCategorySection(brand, cat) {
+    if (!cat || cat === 'all') return;
+    const target = document.getElementById('cat-' + brand + '-' + cat);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  },
+
+  shareUrl(hash) {
     const url = new URL(window.location.href);
-    url.hash = '';
-    url.searchParams.set('producto', id);
+    url.search = '';
+    url.hash = hash || '#/';
     return url.toString();
+  },
+
+  setMetaTag(attr, key, content) {
+    if (!content) return;
+    let el = document.head.querySelector(`meta[${attr}="${key}"]`);
+    if (!el) {
+      el = document.createElement('meta');
+      el.setAttribute(attr, key);
+      document.head.appendChild(el);
+    }
+    el.setAttribute('content', content);
+  },
+
+  updateMeta(title, description) {
+    const t = title || "TOTY'S | Patio de comida – Pollos Chuy & Ruta 9";
+    const d = description || "Descubre el menú de Pollos Chuy y Ruta 9 en TOTY'S, Yacuiba. Haz tu pedido por WhatsApp.";
+    document.title = t;
+    this.setMetaTag('name', 'description', d);
+    this.setMetaTag('property', 'og:title', t);
+    this.setMetaTag('property', 'og:description', d);
+    this.setMetaTag('name', 'twitter:title', t);
+    this.setMetaTag('name', 'twitter:description', d);
+  },
+
+  updateMetaForView(view, opts = {}) {
+    if (view === 'chuy') {
+      const cat = opts.cat && opts.cat !== 'all' ? categories.find(c => c.brand === 'chuy' && c.id === opts.cat) : null;
+      if (cat) this.updateMeta(`${cat.name} · Pollos Chuy | TOTY'S`, `Explora ${cat.name} en Pollos Chuy: ${catTaglines[cat.id] || 'menú disponible para pedir por WhatsApp'} en TOTY'S, Yacuiba.`);
+      else this.updateMeta("Pollos Chuy | TOTY'S", "Pollos Chuy en TOTY'S, Yacuiba: pollo a la broaster, personales, bebidas y más. Haz tu pedido por WhatsApp.");
+    } else if (view === 'ruta9') {
+      const cat = opts.cat && opts.cat !== 'all' ? categories.find(c => c.brand === 'ruta9' && c.id === opts.cat) : null;
+      if (cat) this.updateMeta(`${cat.name} · Ruta 9 | TOTY'S`, `Explora ${cat.name} en Ruta 9: ${catTaglines[cat.id] || 'menú disponible para pedir por WhatsApp'} en TOTY'S, Yacuiba.`);
+      else this.updateMeta("Ruta 9 | TOTY'S", "Ruta 9 en TOTY'S, Yacuiba: hamburguesas ahumadas, combos y bebidas. Haz tu pedido por WhatsApp.");
+    } else if (view === 'about') {
+      this.updateMeta("Sobre TOTY'S | Patio de comida", "Conoce la historia, misión y visión de TOTY'S, patio de comida en Yacuiba que reúne a Pollos Chuy y Ruta 9.");
+    } else if (view !== 'product') {
+      this.updateMeta("TOTY'S | Patio de comida – Pollos Chuy & Ruta 9", "Descubre el menú de Pollos Chuy y Ruta 9 en TOTY'S, Yacuiba. Haz tu pedido por WhatsApp.");
+    }
+  },
+
+  productUrl(id) {
+    return this.shareUrl('#/producto/' + encodeURIComponent(id));
   },
 
   /* ═══════════════════════════════════════════════════
@@ -1490,24 +1581,33 @@ const App = {
     const p = products.find(x => x.id === Number(id));
     if (!p) return;
     const url = this.productUrl(id);
-    const shareData = { title: p.name + ' · TOTY\'S', text: `Mira este producto: ${p.name} — Bs. ${p.price}`, url };
+    const brandName = this.getBrandFromCat(p.cat) === 'ruta9' ? 'Ruta 9' : 'Pollos Chuy';
+    const shareData = {
+      title: `${p.name} · ${brandName} | TOTY'S`,
+      text: `${p.name} — Bs. ${p.price}. Pídelo en ${brandName} (TOTY'S, Yacuiba).`,
+      url
+    };
+    this.updateMeta(shareData.title, shareData.text);
     if (navigator.share) {
       try { await navigator.share(shareData); } catch (e) {}
       return;
     }
     try {
       await navigator.clipboard.writeText(url);
-      this.toast('Enlace copiado');
+      this.toast('Enlace del producto copiado');
     } catch (e) {
       window.open('https://wa.me/?text=' + encodeURIComponent(shareData.text + ' ' + url), '_blank');
     }
   },
 
   pageUrl() {
-    const url = new URL(window.location.href);
-    url.hash = '';
-    url.searchParams.delete('producto');
-    return url.toString();
+    if (this.view === 'product' && this.product) return this.productUrl(this.product.id);
+    if (this.view === 'chuy' || this.view === 'ruta9') {
+      const cat = this.view === 'chuy' ? this.chuyFilter : this.ruta9Filter;
+      return this.shareUrl('#/' + this.view + (cat && cat !== 'all' ? '?cat=' + encodeURIComponent(cat) : ''));
+    }
+    if (this.view === 'about') return this.shareUrl('#/nosotros');
+    return this.shareUrl('#/');
   },
 
   /* ═══════════════════════════════════════════════════
@@ -1519,7 +1619,24 @@ const App = {
   ═══════════════════════════════════════════════════ */
   async sharePage() {
     const url = this.pageUrl();
-    const shareData = { title: 'TOTY\'S · Chuy & Ruta 9', text: 'Mira el menú de TOTY\'S: Chuy (pollos y bebidas) y Ruta 9 (hamburguesas).', url };
+    let title = "TOTY'S · Pollos Chuy & Ruta 9";
+    let text = "Descubre el menú de Pollos Chuy y Ruta 9 en TOTY'S, Yacuiba. Haz tu pedido por WhatsApp.";
+    if (this.view === 'chuy') {
+      const cat = this.chuyFilter && this.chuyFilter !== 'all' ? categories.find(c => c.id === this.chuyFilter) : null;
+      if (cat) { title = `${cat.name} · Pollos Chuy | TOTY'S`; text = `Explora ${cat.name} en Pollos Chuy en TOTY'S, Yacuiba.`; }
+      else { title = "Pollos Chuy | TOTY'S"; text = "Menú de Pollos Chuy en TOTY'S, Yacuiba: pollo a la broaster, personales, bebidas y más."; }
+    } else if (this.view === 'ruta9') {
+      const cat = this.ruta9Filter && this.ruta9Filter !== 'all' ? categories.find(c => c.id === this.ruta9Filter) : null;
+      if (cat) { title = `${cat.name} · Ruta 9 | TOTY'S`; text = `Explora ${cat.name} en Ruta 9 en TOTY'S, Yacuiba.`; }
+      else { title = "Ruta 9 | TOTY'S"; text = "Menú de Ruta 9 en TOTY'S, Yacuiba: hamburguesas ahumadas, combos y bebidas."; }
+    } else if (this.view === 'about') {
+      title = "Sobre TOTY'S | Patio de comida"; text = "Conoce la historia de TOTY'S, patio de comida en Yacuiba con Pollos Chuy y Ruta 9.";
+    } else if (this.view === 'product' && this.product) {
+      const brandName = this.getBrandFromCat(this.product.cat) === 'ruta9' ? 'Ruta 9' : 'Pollos Chuy';
+      title = `${this.product.name} · ${brandName} | TOTY'S`; text = `${this.product.name} — Bs. ${this.product.price}. Pídelo en ${brandName} (TOTY'S, Yacuiba).`;
+    }
+    const shareData = { title, text, url };
+    this.updateMeta(title, text);
     if (navigator.share) {
       try { await navigator.share(shareData); } catch (e) {}
       return;
@@ -1528,7 +1645,50 @@ const App = {
       await navigator.clipboard.writeText(url);
       this.toast('Enlace copiado');
     } catch (e) {
-      window.open('https://wa.me/?text=' + encodeURIComponent(shareData.text + ' ' + url), '_blank');
+      window.open('https://wa.me/?text=' + encodeURIComponent(text + ' ' + url), '_blank');
+    }
+  },
+
+  async shareBrand(brand) {
+    if (brand !== 'chuy' && brand !== 'ruta9') return;
+    this.go(brand);
+    const url = this.shareUrl('#/' + brand);
+    const title = brand === 'chuy' ? "Pollos Chuy | TOTY'S" : "Ruta 9 | TOTY'S";
+    const text = brand === 'chuy'
+      ? "Menú de Pollos Chuy en TOTY'S, Yacuiba: pollo a la broaster, personales, bebidas y más. Haz tu pedido por WhatsApp."
+      : "Menú de Ruta 9 en TOTY'S, Yacuiba: hamburguesas ahumadas, combos y bebidas. Haz tu pedido por WhatsApp.";
+    this.updateMeta(title, text);
+    const shareData = { title, text, url };
+    if (navigator.share) {
+      try { await navigator.share(shareData); } catch (e) {}
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      this.toast('Enlace copiado');
+    } catch (e) {
+      window.open('https://wa.me/?text=' + encodeURIComponent(text + ' ' + url), '_blank');
+    }
+  },
+
+  async shareCategory(brand, catId) {
+    const cat = categories.find(c => c.brand === brand && c.id === catId);
+    if (!cat) return;
+    const url = this.shareUrl('#/' + brand + '?cat=' + encodeURIComponent(catId));
+    const brandName = brand === 'ruta9' ? 'Ruta 9' : 'Pollos Chuy';
+    const title = `${cat.name} · ${brandName} | TOTY'S`;
+    const text = `Explora la categoría ${cat.name} de ${brandName} en TOTY'S, Yacuiba. ${catTaglines[catId] || 'Haz tu pedido por WhatsApp.'}`;
+    this.updateMeta(title, text);
+    const shareData = { title, text, url };
+    if (navigator.share) {
+      try { await navigator.share(shareData); } catch (e) {}
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      this.toast('Enlace de categoría copiado');
+    } catch (e) {
+      window.open('https://wa.me/?text=' + encodeURIComponent(text + ' ' + url), '_blank');
     }
   },
 
